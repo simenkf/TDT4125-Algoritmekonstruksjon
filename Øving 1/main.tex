@@ -1,0 +1,49 @@
+ 
+\documentclass[12pt]{article}
+ 
+\usepackage[margin=1in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb}
+
+\usepackage[utf8]{inputenc}
+\usepackage[norsk]{babel}
+
+%\usepackage[parfill]{parskip}
+
+\newenvironment{solution}{\begin{proof}[Løsning]}{\end{proof}}
+ 
+\begin{document}
+ 
+% --------------------------------------------------------------
+%                         Start here
+% --------------------------------------------------------------
+ 
+\title{Algoritmekonstruksjon: Øving 1}
+\author{Simen Keiland Fondevik\\ %replace with your name
+Approksimasjonsalgoritmer}
+
+\maketitle
+
+\section{Oppgave 1}
+\it{\textbf{Vis at det for en konstant $c$ ikke finnes noen $c \log |T|$-approksimasjonsalgoritme for det rettede Steinertre-problemet, gitt at $P \neq NP$.}}
+
+\begin{proof}
+Teorem 1.14 i Williamson og Shmoys sier at det finnes en konstant $c$ slik at dersom det finnes en $c \log n$-approksimasjonsalgoritme for det uvektede mengdedekkeproblemet, må $P=NP$. Vi trenger altså bare redusere fra det uvektede mengdedekkeproblemet til det rettede Steinertre-problemet. Gitt en instans $(S, E)$ av mengdedekkeproblemet kan dette gjøres ved å konstruere en stjernegraf med rotnoden $r$ i senter. Ut fra rotnoden legges til nodene $s_i,~i = 1, ~2, ~\cdots ~|S|$ med kantvekt 1. Disse svarer til mengden $S_i \in S$. Alle $n = |E|$ elementer $e_j \in E$ kan videre legges til som barn av noden $s_i$ med kantvekt null dersom $e_j \in s_i$. Dette er terminalene som skal dekkes. Vi har nå gjort om instansen av nodedekkeproblemet til et tilfelle av Steinertre-problemet med en polynomtid reduksjon. Altså er Steinertre-problemet minst like vanskelig som mengdedekkeproblemet, hvilket betyr at gitt en $f(|T|)$-approksimasjonsalgoritme for Steinertreproblemet må det det finnes en approksimasjonsalgoritme for mengdedekkeproblemet med ytelsesgaranti $f(n)$. Siden $f(n)$ i henhold til teorem 1.14 ikke kan bli bedre enn $c \log n$, finnes det altså ingen approksimasjonalgoritme for Steinertre-problemet bedre enn $c \log |T|$ for en konstant $c>0$.
+\end{proof}
+
+\section{Oppgave 2}
+\it{\textbf{Vis at det for en konstant $c$ ikke finnes noen $c \log |D|$-approksimasjonsalgoritme for det kapasitetsubegrensede fasilitetslokasjon-problemet, gitt at $P \neq NP$.}}
+
+\begin{proof}
+Liknende situasjon som i oppgave 1. Gitt en instans $(S, E)$ av mengdedekkeproblemet, lag en graf med hver mengde $S_i$ som en node $s_i$ ut fra rotnoden med kantvekt 1. Legg så til de $|E|$ elementene som skal dekkes som noder $e_1, ~e_2, \cdots ~e_{|E|}$. Kanten $(s_i, ~e_j)$ tilordens en vekt lik 1 hvis $e_j \in S_i$, ellers er den uendelig stor. Vi har nå fått en instans av det kapasitetsubegrensede fasilitetslokasjon-problemet gjennom en polynomtid reduksjon der $F = \{s_i ~: ~i = 1, ~2, ~\cdots ~|S|\}$ og $D = \{e_j ~: ~j = 1, ~2, ~\cdots ~|E|\}$. Helt konkret; gitt en løsning på dette problemet, finnes en minst like god løsning på mengdedekkeproplemet. Med samme argumentasjon som i oppgave 1 finnes det dermed ingen approksimasjonsalgoritme for det kapasitetsubegrensede fasilitetslokasjon-problemet med bedre ytelsesgaranti enn $c \log |D|$ for en konstant $c>0$.
+\end{proof}
+
+\it{\textbf{Finn en $O(\log |D|)$-approksimasjonsalgoritme for det kapasitetsubegrensede fasilitetslokasjon-problemet.}}
+
+\begin{solution}
+Tjaa
+\end{solution}
+
+\section{Oppgave 3}
+
+
+\end{document}
