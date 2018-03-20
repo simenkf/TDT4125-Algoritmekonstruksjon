@@ -1,0 +1,94 @@
+ 
+\documentclass[12pt]{article}
+ 
+\usepackage[margin=1in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{listings}
+
+\usepackage[utf8]{inputenc}
+\usepackage[norsk]{babel}
+
+\usepackage{graphicx}
+\usepackage{cleveref}
+
+%\usepackage[parfill]{parskip}
+
+\newenvironment{solution}{\begin{proof}[Løsning]}{\end{proof}}
+ 
+\begin{document}
+ 
+\title{Algoritmekonstruksjon: Øving 3}
+\author{Simen Keiland Fondevik}
+
+\maketitle
+
+\section{Oppgave 1}
+\it{\textbf{Finn en randomisert $1-1/k$-approksimasjon for maks $k$-kutt-problemet gitt en graf $G = (V, E)$ og ikke-negative kantvekter $w_{ij}$ for alle $(i, j) \in E$.}}
+
+\begin{solution}
+Maks 2-kutt er kjent fra pensum. Der ble noder fordelt tilfeldig med lik sannsynlighet er i hver mengde. Forsøker det samme her. La
+\begin{align}
+X_{ij} = \left\{
+\begin{matrix}
+1, ~\exists a,b ~(i \in v_a, ~ j \in v_b, ~a \neq b) \\ 0, ~ \textrm{ellers}
+\end{matrix}
+\right.
+\end{align}
+slik at vi ønsker maksimere
+\begin{align}
+Z = \sum_{(i, j) \in E} w_{i,j} X_{i, j}.
+\end{align}
+Forventningsverdien blir
+\begin{align}
+\mathbb{E}[Z] &= \mathbb{E} \left[ \sum_{(i, j) \in E} w_{i,j} X_{i, j} \right] = \sum_{(i, j) \in E} \mathbb{E} \left[ w_{i,j} X_{i, j} \right] \\
+&= \sum_{(i, j) \in E} w_{i, j} \mathrm{Pr} \left[ \exists a,b ~(i \in v_a, ~ j \in v_b, ~a \neq b) \right] \\
+&= \mathrm{Pr} \left[ (i, j)~\textrm{er i et kutt} \right] \sum_{(i, j) \in E} w_{i, j}\\
+&= \frac{k-1}{k} \sum_{(i, j) \in E} w_{i, j} \geq \frac{k-1}{k} ~OPT = (1-1/k) ~OPT.
+\end{align}
+Sannsynligheten kommer av at blant de $k$ mulige mengdene kan $b$ kun legges i $k-1$ mengder for ikke havne sammen med $a$.
+\end{solution}
+
+\section{Oppgave 2}
+\it{\textbf{Gitt en graf $G = (V, E)$ og ikke-negative kantvekter $w_{ij}$ for alle $(i, j) \in E$, finn en randomisert $1/4$-approksimasjon for maks rettede kutt-problemet med to mengder $U$, $W$}}
+
+\begin{solution}
+Kjører samme metodikk som forrige oppgave; fordeler 50/50.
+La
+\begin{align}
+X_{ij} = \left\{
+\begin{matrix}
+1, ~\exists a,b ~(i \in U, ~ j \in W) \\ 0, ~ \textrm{ellers}
+\end{matrix}
+\right.
+\end{align}
+slik at vi ønsker maksimere
+\begin{align}
+Z = \sum_{(i, j) \in E} w_{i,j} X_{i, j}.
+\end{align}
+Forventningsverdien blir
+\begin{align}
+\mathbb{E}[Z] &= \mathbb{E} \left[ \sum_{(i, j) \in E} w_{i,j} X_{i, j} \right] = \sum_{(i, j) \in E} \mathbb{E} \left[ w_{i,j} X_{i, j} \right] \\
+&= \sum_{(i, j) \in E} w_{i, j} \mathrm{Pr} \left[ \exists a,b ~(i \in U, ~ j \in W) \right] \\
+&= \mathrm{Pr} \left[ i~\textrm{er i}~U ~\textrm{og} ~j~\textrm{er i}~W \right] \sum_{(i, j) \in E} w_{i, j}\\
+&= \frac{1}{4} \sum_{(i, j) \in E} w_{i, j} \geq \frac{1}{4}~OPT\\
+\end{align}
+der sannsynligheten følger av produktregelen med sannsynlighet 0.5 for hver av hendelsene.
+\end{solution}
+
+\section{Oppgave 3}
+\it{\textbf{Derandomiser den randomiserte algoritmen for maks kutt i seksjon 5.1 lærerboka. Hvordan velges om en node skal med i $U$ eller $W$?}}
+
+\begin{solution}
+Boka viser at for $Z = \sum_{(i, j) \in E} w_{i,j} X_{i, j}$ har vi $\mathbb{E}[Z] \geq \frac{1}{2}$. Sammenlikn $\mathbb{E}[Z | v_i \rightarrow U]$ og $\mathbb{E}[Z | v_i \rightarrow W]$ og velg den beste. Pil indikerer at en node plasseres i en mengde. La videre $\beta_k$ betegne at $v_1 \rightarrow B_1 \wedge v_2 \rightarrow B_2 \wedge ... \wedge v_k \rightarrow B_k$, $B_i \in \{U, W\}$. Lov om total- og betinget sannsynlighet gir da at
+\begin{align}
+\mathbb{E}[Z|\beta_k] &= \mathbb{E}[Z|\beta_k, v_{k+1} \rightarrow U] \textrm{Pr} \left [ v_{k+1} \rightarrow U \right] + \mathbb{E}[Z|\beta_k, v_{k+1} \rightarrow W] \textrm{Pr} \left [ v_{k+1} \rightarrow W \right] \\
+&= \frac{1}{2} \left( \mathbb{E}[Z|\beta_k, v_{k+1} \rightarrow U] + \mathbb{E}[Z|\beta_k, v_{k+1} \rightarrow W] \right).
+\end{align}
+Skuffeprinsippet gir da at enten $\mathbb{E}[Z|\beta_k, v_{k+1} \rightarrow U]$, $\mathbb{E}[Z|\beta_k, v_{k+1} \rightarrow W]$ eller begge er minst like stor som $\mathbb{E}[Z|\beta_k]$. Ved å velge den beste av disse to er vi altså garantert $\mathbb{E}[Z|\beta_{k+1}] \geq \mathbb{E}[Z|\beta_k]$, som ved induksjon impliserer $\mathbb{E}[Z|\beta_{|V|}] \geq \mathbb{E}[Z] \geq \frac{1}{2}~OPT$. Siste ulikhet kommer av det boka allerede har utledet, og induksjonens grunntrinn, $\beta = \emptyset$, er trivielt. Hver enkelt forventningsverdi er dessuten enkel å regne ut; $ \mathbb{E}[Z|\beta_k] = \sum_{(i,j) \in E} w_{i, j} \mathbb{E}[X_{i,j}|\beta_k]$. Valgene gjøres altså basert på forventningsverdi.
+
+
+\end{solution}
+
+
+
+\end{document}
